@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Blog{% endblock %}</title>
+    <!-- Add your CSS files here -->
+</head>
+<body>
+    <header>
+        <h1><a href="{% url 'blog:post_list' %}">My Blog</a></h1>
+        <nav>
+            <a href="{% url 'blog:post_list' %}">Home</a>
+            <!-- Add more navigation links here -->
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Default content can go here, but it's usually left empty -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 My Blog</p>
+    </footer>
+</body>
+</html>
