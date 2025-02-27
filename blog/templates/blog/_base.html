@@ -35,6 +35,13 @@
             I've written {% total_posts %} post so far
         </p>
 
+        <!----RRS FEED---->
+        <p>
+            <a href="{% url 'blog:post_feed' %}">
+                Subscribe to my RSS feed
+            </a>
+        </p>
+
         <!----show latest post---->
         <h3>Latest Posts</h3>
         {% show_latest_posts 3 %}
@@ -51,7 +58,7 @@
         </ul>
     </div>
 
-    
+
     <footer>
         <p>&copy; 2025 My Blog</p>
     </footer>
