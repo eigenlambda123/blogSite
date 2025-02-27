@@ -23,15 +23,35 @@
         <!-- Default content can go here, but it's usually left empty -->
         {% endblock %}
     </main>
+
+
+
     <div id="sidebar">
+        
         <h2>My Blog</h2>
+        <!----count total post---->
         <p>
             This is my blog
             I've written {% total_posts %} post so far
         </p>
+
+        <!----show latest post---->
         <h3>Latest Posts</h3>
         {% show_latest_posts 3 %}
+
+        <!----most commented post---->
+        <h3>Most Commented Posts</h3>
+        {% get_most_commented_posts as most_commented_posts %}
+        <ul>
+            {% for post in most_commented_posts %}
+            <li>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
+
+    
     <footer>
         <p>&copy; 2025 My Blog</p>
     </footer>
