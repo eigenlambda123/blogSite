@@ -1,7 +1,6 @@
 {% extends "blog/_base.html" %}
-
+{% load blog_tags %}
 {% block title %}Blog Posts{% endblock %}
-
 {% block content %}
     <h1>Blog Posts</h1>
     {% if tag %}
@@ -10,7 +9,7 @@
     {% for post in posts %}
         <article>
             <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
-            <p>{{ post.body|truncatewords:30 }}</p>
+            <p>{{ post.body|markdown|truncatewords_html:30 }}</p>
 
             <!----tags--->
             <p class="tags">
