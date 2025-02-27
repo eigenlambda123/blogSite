@@ -1,15 +1,18 @@
+{% load blog_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My Blog{% endblock %}</title>
+    {% load static %}
     <!-- Add your CSS files here -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
         <h1><a href="{% url 'blog:post_list' %}">My Blog</a></h1>
-        <nav>
+
             <a href="{% url 'blog:post_list' %}">Home</a>
             <!-- Add more navigation links here -->
         </nav>
@@ -20,6 +23,13 @@
         <!-- Default content can go here, but it's usually left empty -->
         {% endblock %}
     </main>
+    <div id="sidebar">
+        <h2>My Blog</h2>
+        <p>
+            This is my blog
+            I've written {% total_posts %} post so far
+        </p>
+    </div>
 
     <footer>
         <p>&copy; 2025 My Blog</p>
