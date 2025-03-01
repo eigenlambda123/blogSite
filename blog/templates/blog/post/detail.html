@@ -2,39 +2,47 @@
 {% load blog_tags %}
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
-    <h1>{{ post.title }}</h1>
-    <p class="date">
-        Published {{ post.publish }} by {{ post.author }}
-    </p>
-    {{ post.body|markdown }}
-    <p>
-        <a href="{% url "blog:post_share" post.id %}">
-            Share this post
-        </a>
-    </p>
-    <h2>Similar Posts</h2>
-    {% for post in similar_posts %}
-        <p>
-            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+    <div class="container mt-4">
+        <h1 class="h3 fw-bold">{{ post.title }}</h1>
+        <p class="text-muted">
+            Published on {{ post.publish|date:"F j, Y" }} by <strong>{{ post.author }}</strong>
         </p>
-    {% empty %}
-        There are no similar posts.
-    {% endfor %}
-    {% with comments.count as total_comments %}
-        <h2>
-            {{ total_comments }} comment{{ total_comments|pluralize }}
-        </h2>
-    {% endwith %}
-    {% for comment in comments %}
-        <div class="comment">
-            <p class="info">
-                Comment {{ forloop.counter }} by {{ comment.name }}
-                {{ comment.created }}
-            </p>
-            {{ comment.body|linebreaks }}
+        <div class="card p-4 shadow-sm mb-4">
+            {{ post.body|markdown }}
         </div>
-    {% empty %}
-        <p>There are no comments.</p>
-    {% endfor %}
-    {% include "blog/post/includes/comment_form.html" %}
+        <p>
+            <a href="{% url 'blog:post_share' post.id %}" class="btn btn-outline-primary">
+                Share this article
+            </a>
+        </p>
+        
+        <h2 class="h5 mt-4">Related Articles</h2>
+        <ul class="list-group mb-4">
+            {% for post in similar_posts %}
+                <li class="list-group-item">
+                    <a href="{{ post.get_absolute_url }}" class="text-decoration-none">{{ post.title }}</a>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">There are no related articles.</li>
+            {% endfor %}
+        </ul>
+        
+        {% with comments.count as total_comments %}
+            <h2 class="h5">{{ total_comments }} comment{{ total_comments|pluralize }}</h2>
+        {% endwith %}
+        
+        <div class="mt-3">
+            {% for comment in comments %}
+                <div class="card mb-3 p-3 shadow-sm">
+                    <p class="fw-bold">Comment {{ forloop.counter }} by {{ comment.name }}</p>
+                    <p class="text-muted small">{{ comment.created|date:"F j, Y, g:i a" }}</p>
+                    <p>{{ comment.body|linebreaks }}</p>
+                </div>
+            {% empty %}
+                <p class="alert alert-warning">There are no comments.</p>
+            {% endfor %}
+        </div>
+        
+        {% include "blog/post/includes/comment_form.html" %}
+    </div>
 {% endblock %}

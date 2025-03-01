@@ -1,19 +1,65 @@
-<div class="pagination">
-    <ul>
-        {% if page_obj.has_previous %}
-            <li><a href="?page=1">&laquo; first</a></li>
-            <li><a href="?page={{ page_obj.previous_page_number }}">previous</a></li>
-        {% endif %}
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <li class="active"><span>{{ num }}</span></li>
-            {% else %}
-                <li><a href="?page={{ num }}">{{ num }}</a></li>
+<div class="container mt-4">
+    <div class="row">
+        <main class="col-md-8">
+            {% block main_content %}{% endblock %}
+            
+            {% if page_obj.paginator.num_pages > 1 %}
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">&laquo; First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">&laquo; First</span>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">Previous</span>
+                            </li>
+                        {% endif %}
+
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ num }}</span>
+                                </li>
+                            {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% elif num == 1 or num == page_obj.paginator.num_pages %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
+                                <li class="page-item disabled">
+                                    <span class="page-link">...</span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Next</span>
+                            </li>
+                            <li class="page-item disabled">
+                                <span class="page-link">Last &raquo;</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
             {% endif %}
-        {% endfor %}
-        {% if page_obj.has_next %}
-            <li><a href="?page={{ page_obj.next_page_number }}">next</a></li>
-            <li><a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
-        {% endif %}
-    </ul>
+        </main>
+    </div>
 </div>
